@@ -1,1 +1,1 @@
-# CS50-Problemset1-Mario
+# CS50-Problemset1
