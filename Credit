@@ -1,0 +1,91 @@
+//Credit
+
+#include<stdio.h>
+#include<cs50.h>
+#include<math.h>
+bool is_valid(long numbers);
+int get_length(long numbers);
+int get_dig(long numbers, int digits);
+int main(void)
+{
+    long numbers = get_long("Enter the card number");
+    int length = get_length(numbers);
+    int first_two = get_dig(numbers,2);
+    int first_one = get_dig(numbers,1);
+
+    if (!is_valid(numbers))
+    {
+        printf("It is an invalid number");
+        return 0;
+    }
+
+    if ((length == 15) && (first_two == 34 || first_two == 37))
+    {
+        printf("It is an American Express card");
+    }
+
+    else if ((length == 16) && (first_two >= 51 && first_two <= 55))
+    {
+        printf("It is a Mastercard!");
+    }
+
+    else if ((length == 13 || length == 16) && (first_one == 4))
+    {
+        printf("It is a VISA card!");
+    }
+
+    else
+    {
+        printf("Invalid hahaha\n");
+    }
+
+
+
+}
+
+int get_length(long numbers)
+{
+    int length = 0 ;
+    while(numbers != 0)
+    {
+        numbers/=10;
+        length++;
+    }
+    return length;
+}
+
+bool is_valid(long numbers)
+{
+    int sum = 0;
+    bool alternate = false;
+
+    while (numbers > 0)
+    {
+        int digits = numbers%10;
+
+        if (alternate != false)
+        {
+            digits=digits*2;
+        }
+
+        if (digits > 9)
+        {
+            digits = (digits%10 + digits/10);
+        }
+        sum = sum + digits;
+        alternate = ! alternate;
+        numbers/=10;
+    }
+    return (sum%10 == 0);
+}
+
+int get_dig(long numbers,int digits)
+{
+    int first = 0;
+    while ( (int) log10(numbers)+1 > digits)
+    {
+        numbers/=10;
+        first = numbers;
+    }
+    return first;
+}
